@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.system.RoleDao">
+
+    <resultMap id="roleResult" type="Role">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="ename" column="ename" />
+        <result property="createDate" column="createDate" />
+        <result property="updateDate" column="updateDate" />
+        <collection property="menuList" ofType="Menu">
+            <id property="id" column="menuList.id" />
+        </collection>
+    </resultMap>
+
+    <select id="get" resultMap="roleResult">
+        SELECT
+          a.id,
+          a.name,
+          a.ename,
+          a.create_date,
+          a.update_date,
+          rm.menu_id AS "menuList.id"
+        FROM sys_role a
+        LEFT JOIN sys_role_menu rm ON rm.role_id = a.id
+        WHERE id = #{id}
+    </select>
+
+    <select id="findList" resultMap="roleResult">
+        SELECT
+        a.id,
+        a.name,
+        a.ename,
+        a.create_date,
+        a.update_date,
+        rm.menu_id AS "menuList.id"
+        FROM sys_role a
+        LEFT JOIN sys_role_menu rm ON rm.role_id = a.id
+        LEFT JOIN sys_user_role ur ON ur.role_id = a.id
+        WHERE 1=1
+        <if test="user=null and user.id!=null and user.id!=''">
+            AND ur.user_id = #{user.id}
+        </if>
+    </select>
+
+    <select id="getByName" resultType="Role">
+        SELECT
+          a.id,
+          a.name,
+          a.ename,
+          a.create_date,
+          a.update_date
+        FROM sys_role a
+        WHERE a.name = #{name}
+    </select>
+
+    <select id="getByEname" resultType="Role">
+        SELECT
+          a.id,
+          a.name,
+          a.ename,
+          a.create_date,
+          a.update_date
+        FROM sys_role a
+        WHERE a.ename = #{ename}
+    </select>
+
+    <select id="inUsing" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_user_role WHERE role_id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_role(
+          id, `name`,ename, create_date, update_date
+        ) VALUES (
+          #{id}, #{name},#{ename}, #{createDate}, #{updateDate}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_role
+        SET `name` = #{name},
+        ename = #{ename},
+        update_date = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM sys_role
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteRoleMenu">
+        DELETE FROM sys_role_menu WHERE role_id = #{id}
+    </delete>
+
+    <insert id="insertRoleMenu">
+        INSERT INTO sys_role_menu(role_id, menu_id)
+        <foreach collection="menuList" item="menu" separator=" union all ">
+            SELECT #{id}, #{menu.id} FROM dual
+        </foreach>
+    </insert>
+
+</mapper>

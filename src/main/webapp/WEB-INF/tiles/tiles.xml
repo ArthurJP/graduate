@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="default.definition" template="/WEB-INF/views/layouts/default.jsp">
+        <put-attribute name="meta" value="/WEB-INF/views/partial/default/meta.jsp"/>
+        <put-attribute name="js" value="/WEB-INF/views/partial/default/js.jsp"/>
+        <put-attribute name="stylesheets" value="/WEB-INF/views/partial/default/stylesheets.jsp"/>
+        <put-attribute name="nav" value="/WEB-INF/views/partial/default/nav.jsp"/>
+        <put-attribute name="side" value="/WEB-INF/views/partial/default/sideMenu.jsp"/>
+        <put-attribute name="content" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/partial/default/footer.jsp"/>
+    </definition>
+
+    <definition name="*.*.*" extends="default.definition">
+        <put-attribute name="title" expression="${title}"/>
+        <put-attribute name="content" value="/WEB-INF/views/modules/{1}/{2}/{3}.jsp"/>
+    </definition>
+
+    <definition name="defaultStandalone.definition" template="/WEB-INF/views/layouts/defaultStandalone.jsp">
+        <put-attribute name="meta" value="/WEB-INF/views/partial/default/meta.jsp"/>
+        <put-attribute name="js" value="/WEB-INF/views/partial/default/js.jsp"/>
+        <put-attribute name="stylesheets" value="/WEB-INF/views/partial/default/stylesheets.jsp"/>
+        <put-attribute name="content" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/partial/default/footer.jsp"/>
+    </definition>
+
+    <definition name="*-*-*" extends="defaultStandalone.definition">
+        <put-attribute name="title" expression="${title}"/>
+        <put-attribute name="content" value="/WEB-INF/views/modules/{1}/{2}/{3}.jsp"/>
+    </definition>
+
+</tiles-definitions>

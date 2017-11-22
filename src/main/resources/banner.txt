@@ -1,0 +1,1 @@
+${AnsiColor.BRIGHT_BLUE}:: Basic Web System :: Running Spring Boot ${spring-boot.version} :: \ö/${AnsiColor.BLACK}

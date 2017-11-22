@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.system.MenuDao">
+
+    <sql id="menuColumns">
+      a.id,
+      a.parent_id AS 'parent.id',
+      a.parent_ids AS 'parentIds',
+      p.name AS 'parent.name',
+      p.key AS 'parent.key',
+      p.type AS 'parent.type',
+      a.name,
+      a.url,
+      a.key,
+      a.type,
+      a.icon,
+      a.sort,
+      a.is_show AS 'isShow',
+      a.permission,
+      a.create_date AS 'createDate',
+      a.update_date AS 'updateDate'
+    </sql>
+
+    <select id="get" resultType="Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM sys_menu a
+        LEFT JOIN sys_menu p ON p.id = a.parent_id
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM sys_menu a
+        LEFT JOIN sys_menu p ON p.id = a.parent_id
+        WHERE 1=1
+        <if test="parent!=null and parent.id!=null and parent.id!=''">
+            AND a.parent_id = #{parent.id}
+        </if>
+        ORDER BY a.sort ASC
+    </select>
+
+    <select id="findListByUserId" resultType="Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM sys_menu a
+        LEFT JOIN sys_menu p ON p.id = a.parent_id
+        JOIN sys_role_menu rm ON rm.menu_id = a.id
+        JOIN sys_role r ON r.id = rm.role_id
+        JOIN sys_user_role ur ON ur.role_id = r.id
+        JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
+        ORDER BY a.sort ASC
+    </select>
+
+    <select id="findByParentIdsLike" resultType="Menu">
+        SELECT
+        a.id,
+        a.parent_id AS "parent.id",
+        a.parent_ids AS 'parentIds'
+        FROM sys_menu a
+        WHERE a.parent_ids LIKE #{parentIds}
+        ORDER BY a.sort
+    </select>
+
+    <select id="inUsing" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_role_menu WHERE menu_id = #{id}
+    </select>
+
+    <update id="updateParentIds">
+        UPDATE sys_menu SET
+        parent_id = #{parent.id},
+        parent_ids = #{parentIds}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO sys_menu(
+          id, parent_id, parent_ids, `name`, url, `key`, `type`, icon, sort, is_show, permission,create_date, update_date
+        ) VALUES (
+          #{id}, #{parent.id}, #{parentIds},  #{name}, #{url}, #{key}, #{type}, #{icon}, #{sort}, #{isShow}, #{permission},#{createDate}, #{updateDate}
+        )
+    </insert>
+
+    <update id="updateSort">
+        UPDATE sys_menu SET
+        sort = #{sort}
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE sys_menu SET
+        parent_id = #{parent.id},
+        parent_ids = #{parentIds},
+        `name` = #{name},
+        url = #{url},
+        icon = #{icon},
+        `type` = #{type},
+        `key` = #{key},
+        sort = #{sort},
+        is_show = #{isShow},
+        permission = #{permission},
+        update_date = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_menu
+        WHERE id = #{id} OR parent_ids LIKE CONCAT('%,', #{id}, ',%')
+    </update>
+
+
+</mapper>

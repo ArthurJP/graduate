@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.system.UserDao">
+
+    <resultMap id="userSingleResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="mobile" column="mobile"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="office.id" column="office.id"/>
+        <result property="office.parent.id" column="office.parent.id"/>
+        <result property="office.name" column="office.name"/>
+        <result property="role.id" column="role.id"/>
+        <result property="role.name" column="role.name"/>
+        <result property="role.ename" column="role.ename"/>
+    </resultMap>
+
+    <sql id="userColumns">
+        a.id,
+        a.name,
+        a.password,
+        a.mobile,
+        a.create_date AS 'createDate',
+        a.update_date AS 'updateDate',
+        o.id As 'office.id',
+        o.parent_id AS 'office.parent.id',
+        o.name AS 'office.name',
+        r.id AS 'role.id',
+        r.name AS 'role.name',
+        r.ename AS 'role.ename'
+    </sql>
+
+    <sql id="userJoins">
+        LEFT JOIN sys_user_office uo ON uo.user_id = a.id
+        LEFT JOIN sys_office o ON o.id = uo.office_id
+        LEFT JOIN sys_user_role ur ON ur.user_id = a.id
+        LEFT JOIN sys_role r ON r.id = ur.role_id
+    </sql>
+
+    <select id="get" resultMap="userSingleResultMap">
+        SELECT
+        <include refid="userColumns"/>
+        FROM sys_user a
+        <include refid="userJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM sys_user a
+        <include refid="userJoins"/>
+        WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND a.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        <if test="mobile!=null and mobile!=''">
+            AND a.mobile LIKE CONCAT('%', #{mobile}, '%')
+        </if>
+        <if test="office!=null and office.id!=''">
+            AND o.id = #{office.id}
+        </if>
+    </select>
+
+    <select id="findByMobile" resultMap="userSingleResultMap">
+        SELECT
+        <include refid="userColumns"/>
+        FROM sys_user a
+        <include refid="userJoins"/>
+        WHERE a.mobile = #{mobile}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_user(id, mobile, password, create_date, update_date)
+        VALUES (#{id}, #{mobile}, #{password}, #{createDate}, #{updateDate})
+    </insert>
+
+    <delete id="deleteUserRole">
+        DELETE FROM sys_user_role WHERE user_id = #{id}
+    </delete>
+
+    <insert id="insertUserRole">
+        INSERT INTO sys_user_role(user_id, role_id) VALUES (#{id}, #{role.id})
+    </insert>
+
+    <delete id="deleteUserOffice">
+        DELETE FROM sys_user_office WHERE user_id = #{id}
+    </delete>
+
+    <insert id="insertUserOffice">
+        INSERT INTO sys_user_office(user_id, office_id) VALUES (#{id}, #{office.id})
+    </insert>
+
+    <update id="update">
+        UPDATE `sys_user` SET `name`=#{name}, update_date=#{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <select id="checkExistMobile" resultType="java.lang.Integer">
+        SELECT count(id) FROM sys_user where mobile = #{mobile}
+    </select>
+
+</mapper>

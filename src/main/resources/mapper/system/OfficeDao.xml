@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.system.OfficeDao">
+
+    <sql id="officeColumns">
+      a.id,
+      a.parent_id AS 'parent.id',
+      a.parent_ids AS 'parentIds',
+      p.name AS 'parent.name',
+      a.name,
+      a.create_date AS 'createDate',
+      a.update_date AS 'updateDate'
+    </sql>
+
+    <select id="get" resultType="Office">
+        SELECT
+        <include refid="officeColumns"/>
+        FROM sys_office a
+        LEFT JOIN sys_office p ON p.id = a.parent_id
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Office">
+        SELECT
+        <include refid="officeColumns"/>
+        FROM sys_office a
+        LEFT JOIN sys_office p ON p.id = a.parent_id
+    </select>
+
+    <select id="findByParentIdsLike" resultType="Office">
+        SELECT
+        a.id,
+        a.parent_id AS "parent.id",
+        a.parent_ids AS 'parentIds'
+        FROM sys_office a
+        WHERE a.parent_ids LIKE #{parentIds}
+    </select>
+
+    <select id="inUsing" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_user_office WHERE office_id = #{id}
+    </select>
+
+    <update id="updateParentIds">
+        UPDATE sys_office SET
+        parent_id = #{parent.id},
+        parent_ids = #{parentIds}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO sys_office(
+          id, parent_id, parent_ids, `name`,create_date, update_date
+        ) VALUES (
+          #{id}, #{parent.id}, #{parentIds},  #{name}, #{createDate}, #{updateDate}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_office SET
+        parent_id = #{parent.id},
+        parent_ids = #{parentIds},
+        `name` = #{name},
+        update_date = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_office
+        WHERE id = #{id} OR parent_ids LIKE CONCAT('%,', #{id}, ',%')
+    </update>
+
+    <insert id="insertRoleMenu">
+        INSERT INTO sys_role_menu(role_id, menu_id)
+        <foreach collection="menuList" item="menu" separator=" union all ">
+            SELECT #{id}, #{menu.id} FROM dual
+        </foreach>
+    </insert>
+
+
+</mapper>

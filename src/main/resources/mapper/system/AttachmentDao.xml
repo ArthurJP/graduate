@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.system.AttachmentDao">
+
+    <select id="get" resultType="Attachment">
+        SELECT
+          a.id,
+          a.origin,
+          a.subfix,
+          a.relative_path As 'relativePath'
+        FROM sys_attachment a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Attachment">
+        SELECT
+          a.id,
+          a.origin,
+          a.subfix,
+          a.relative_path As 'relativePath'
+        FROM sys_attachment a
+    </select>
+
+    <insert id="batchInsert">
+        <foreach collection="list" item="a">
+            INSERT INTO sys_attachment(id, origin, subfix, relative_path, create_date, update_date) VALUES (#{a.id},
+            #{a.origin}, #{a.subfix}, #{a.relativePath}, #{a.createDate}, #{a.updateDate});
+        </foreach>
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM sys_attachment WHERE id = #{id};
+        DELETE FROM sys_business_attachment WHERE attachment_id = #{id};
+    </delete>
+
+    <insert id="insertBusinessAttachment">
+        DELETE FROM sys_business_attachment WHERE business_id = #{id};
+        <if test="attachmentList.size()>0">
+            INSERT INTO sys_business_attachment(business_id, attachment_id) VALUES
+            <foreach collection="attachmentList" item="a" separator=",">(#{id}, #{a.id})</foreach>
+        </if>
+    </insert>
+
+</mapper>

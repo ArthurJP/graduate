@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--monitorInterval:刷新日志配置时间间隔-->
+<!--status:"trace", "debug", "info", "warn", "error" and "fatal"-->
+<!--http://logging.apache.org/log4j/2.x/manual/configuration.html-->
+<!--http://blog.csdn.net/clementad/article/details/44625787-->
+<Configuration status="debug" monitorInterval="60">
+
+    <properties>
+        <property name="LOG_HOME">../logs/basic</property>
+        <property name="ERROR_LOG_FILE_NAME">error</property>
+    </properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5level %d{yyyy-MM-dd HH:mm:ss}%nFrom: %logger{36}%nMsg: %msg%n-----%n"/>
+        </Console>
+    </Appenders>
+
+    <Logger name="org.mybatis" level="DEBUG">
+        <AppenderRef ref="Console"/>
+    </Logger>
+
+    <Logger name="java.sql" level="DEBUG">
+        <AppenderRef ref="Console"/>
+    </Logger>
+
+    <Loggers>
+        <!-- 3rdparty Loggers -->
+        <AsyncLogger name="cn.strongme" level="debug" includeLocation="true" additivity="false">
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+        <root level="info" includeLocation="true" additivity="false">
+            <appender-ref ref="Console"/>
+        </root>
+    </Loggers>
+
+</Configuration>

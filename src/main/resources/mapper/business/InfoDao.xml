@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.business.InfoDao">
+
+    <sql id="infoColumns">
+        a.id,
+        a.title,
+        a.intro,
+        a.type,
+        a.content,
+        a.create_date AS 'createDate',
+        a.update_date AS 'updateDate'
+    </sql>
+
+    <select id="get" resultType="Info">
+        SELECT
+        <include refid="infoColumns"/>
+        FROM info a
+        WHERE id = #{id}
+    </select>
+
+    <select id="findList" resultType="Info">
+        SELECT
+        <include refid="infoColumns"/>
+        FROM info a
+        WHERE 1=1
+        <if test="type!=null and type!=''">
+            AND a.type = #{type}
+        </if>
+        <if test="title!=null and title!=''">
+            AND a.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="intro!=null and intro!=''">
+            AND a.intro LIKE CONCAT('%', #{intro}, '%')
+        </if>
+        <if test="typeList!=null and typeList.size()>0">
+            AND a.type in
+            <foreach collection="typeList" item="t" separator="," open="(" close=")">
+                #{t}
+            </foreach>
+        </if>
+        ORDER BY a.create_date DESC
+    </select>
+
+    <select id="findListByType" resultType="Info">
+        SELECT
+        <include refid="infoColumns"/>
+        FROM info a where a.type=#{type}
+        ORDER BY a.create_date DESC
+    </select>
+
+    <insert id="insert">
+        INSERT INTO info(
+        id,
+        title,
+        intro,
+        `type`,
+        content,
+        create_date,
+        update_date
+        ) VALUES (
+        #{id},
+        #{title},
+        #{intro},
+        #{type},
+        #{content},
+        #{createDate},
+        #{updateDate}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE info SET
+        title=#{title},
+        intro=#{intro},
+        content=#{content},
+        type=#{type},
+        update_date= #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM info WHERE id = #{id}
+    </delete>
+
+    <select id="findListByMaxDate" resultType="Info">
+        SELECT
+         a.id,
+        a.title,
+        a.intro,
+        a.type,
+        a.content,
+        a.create_date AS 'createDate',
+        a.update_date AS 'updateDate'
+        FROM info a where type = #{type} ORDER by a.create_date DESC limit 1;
+     </select>
+
+</mapper>

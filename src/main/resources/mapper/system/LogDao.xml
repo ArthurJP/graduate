@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.strongme.dao.system.LogDao">
+    
+	<select id="findList" resultType="Log">
+		SELECT 
+			a.id,
+			a.type,
+			a.title,
+			a.create_date AS 'createDate',
+			a.remote_addr AS 'remoteAddr',
+			a.user_agent AS 'userAgent',
+			a.method,
+			a.exception,
+			a.request_uri AS 'requestUri',
+			a.params,
+			a.user_id AS 'user.id',
+			u.name As 'user.name',
+			u.mobile As 'user.mobile',
+			o.id AS 'user.office.id',
+			o.name AS 'user.office.name'
+		FROM sys_log a
+		LEFT JOIN sys_user u ON u.id = a.user_id
+		LEFT JOIN sys_user_office uo ON uo.user_id = u.id
+		LEFT JOIN sys_office o ON o.id = uo.office_id
+		WHERE DATE_FORMAT(a.create_date,'%Y-%m-%d') &gt;= DATE_FORMAT(#{beginDate},'%Y-%m-%d') AND
+		DATE_FORMAT(a.create_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate},'%Y-%m-%d')
+		<if test="title != null and title != ''">
+			AND a.title LIKE CONCAT('%', #{title}, '%')
+		</if>
+		<if test="requestUri != null and requestUri != ''">
+			AND a.request_uri LIKE CONCAT('%', #{requestUri}, '%')
+		</if>
+		<if test="exception != null and exception != ''">
+			AND a.type = #{TYPE_EXCEPTION}
+		</if>
+		<if test="user!=null and user.mobile!=null and user.mobile!=''">
+			AND u.mobile = #{user.mobile}
+		</if>
+		ORDER BY a.create_date DESC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_log(
+			id, 
+			`type`,
+			user_id,
+			title,
+			create_date,
+			remote_addr, 
+			user_agent, 
+			request_uri, 
+			method, 
+			params, 
+			`exception`
+		) VALUES (
+			#{id}, 
+			#{type},
+			#{user.id},
+			#{title}, 
+			#{createDate},
+			#{remoteAddr}, 
+			#{userAgent}, 
+			#{requestUri}, 
+			#{method}, 
+			#{params}, 
+			#{exception}
+		)
+	</insert>
+	
+</mapper>
