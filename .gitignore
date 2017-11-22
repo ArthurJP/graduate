@@ -3,3 +3,5 @@
 *.iws
 *.iml
 *.ipr
+src/main/webapp/userfiles/
+target/
