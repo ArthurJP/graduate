@@ -3,6 +3,7 @@
 
 # 目前的问题
 > UserService事务不起作用，其他Service都没有问题，各位大牛帮忙看看！
+事实上是UserService里面所有的事务都不起作用
 
 ``` java
      @Transactional(readOnly = false, rollbackFor = ServiceException.class)
