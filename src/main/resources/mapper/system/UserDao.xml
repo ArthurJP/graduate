@@ -104,4 +104,11 @@
         SELECT count(id) FROM sys_user where mobile = #{mobile}
     </select>
 
+
+    <delete id="delete">
+        DELETE FROM sys_user_role WHERE user_id = #{id};
+        DELETE FROM sys_user_office WHERE user_id = #{id};
+        DELETE FROM sys_user WHERE id = #{id};
+    </delete>
+
 </mapper>

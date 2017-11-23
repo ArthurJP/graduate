@@ -78,7 +78,8 @@ public class UserUtils {
     public static User getByMobile(String mobile) {
         User user = (User) CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + mobile);
         if (user == null) {
-            user = userDao.findByMobile(mobile);
+            User u = new User();u.setMobile(mobile);
+            user = userDao.findByMobile(u);
             if (user == null) {
                 return null;
             }

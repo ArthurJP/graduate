@@ -3,7 +3,9 @@ package cn.strongme.web.system;
 import cn.strongme.annotation.TitleInfo;
 import cn.strongme.config.Principal;
 import cn.strongme.entity.system.User;
-import cn.strongme.service.system.UserService;
+import cn.strongme.service.system.DictService;
+import cn.strongme.service.system.JustMeService;
+import cn.strongme.service.system.UserAltService;
 import cn.strongme.servlet.ValidateCodeServlet;
 import cn.strongme.utils.common.CacheUtils;
 import cn.strongme.utils.common.VerifyCodeUtils;
@@ -29,7 +31,9 @@ import java.util.Map;
 
 
 /**
- * Created by 阿水 on 2017/7/14 上午8:44.
+ *
+ * @author 阿水
+ * @date 2017/7/14 上午8:44
  * 首页及主要
  */
 @Controller
@@ -38,7 +42,9 @@ public class LoginController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
-    private UserService userService;
+    private UserAltService userAltService;
+    @Autowired
+    private JustMeService justMeService;
 
     @RequestMapping("system/home")
     @TitleInfo(title = "主页", subTitle = "系统主页")
@@ -143,7 +149,7 @@ public class LoginController extends BaseController {
             newUser.setMobile(mobile);
             newUser.setPassword(password);
             try {
-                userService.save(newUser);
+                justMeService.save(newUser);
             } catch (Exception e) {
                 addMessage(redirectAttributes, "danger", e.getMessage());
                 return "redirect:/regist";
@@ -193,7 +199,7 @@ public class LoginController extends BaseController {
     public String checkLoginName(String mobile) {
         User u = new User();
         u.setMobile(mobile);
-        if (userService.checkExistMobile(u)) {
+        if (justMeService.checkExistMobile(u)) {
             return "false";
         }
         return "true";

@@ -8,7 +8,9 @@ import tk.mybatis.mapper.common.MySqlMapper;
 import java.util.List;
 
 /**
- * Created by 阿水 on 2017/7/14 上午8:59.
+ *
+ * @author 阿水
+ * @date 2017/7/14 上午8:59
  */
 @Mapper
 @Repository
@@ -24,7 +26,7 @@ public interface UserDao extends MySqlMapper<User> {
 
     int delete(User t);
 
-    User findByMobile(String mobile);
+    User findByMobile(User user);
 
     int insertUserRole(User user);
 

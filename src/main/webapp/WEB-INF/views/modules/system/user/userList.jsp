@@ -45,6 +45,7 @@
                 <th>姓名</th>
                 <th>手机号</th>
                 <th>所属部门</th>
+                <th>操作</th>
             </tr>
             <c:forEach items="${page.list}" var="user" varStatus="i">
                 <tr>
@@ -52,6 +53,11 @@
                     <td><a href="${ctx}/system/user/form?id=${user.id}">${user.name}</a></td>
                     <td>${user.mobile}</td>
                     <td>${user.office.name}</td>
+                    <td>
+                        <a href="${ctx}/system/user/form?id=${user.id}">修改</a>
+                        <a href="${ctx}/system/user/delete?id=${user.id}"
+                           onclick="return del(this.href)">删除</a>
+                    </td>
                 </tr>
             </c:forEach>
             <c:if test="${fn:length(page.list)<=0}">

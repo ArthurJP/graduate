@@ -1,10 +1,13 @@
 package cn.strongme.service.system;
 
 import cn.strongme.dao.system.DictDao;
+import cn.strongme.dao.system.UserDao;
 import cn.strongme.entity.system.Dict;
+import cn.strongme.entity.system.User;
 import cn.strongme.exception.ServiceException;
 import cn.strongme.service.common.BaseService;
 import cn.strongme.utils.common.CacheUtils;
+import cn.strongme.utils.common.ConfigUtils;
 import cn.strongme.utils.system.DictUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,6 +31,9 @@ public class DictService extends BaseService<Dict> {
 
     @Autowired
     private DictDao dictDao;
+
+    @Autowired
+    private UserDao userDao;
 
     public Dict get(Dict dict) {
         return this.dictDao.get(dict);
