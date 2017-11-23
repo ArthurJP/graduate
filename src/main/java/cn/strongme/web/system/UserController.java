@@ -4,9 +4,8 @@ import cn.strongme.annotation.MenuKey;
 import cn.strongme.annotation.TitleInfo;
 import cn.strongme.entity.system.Role;
 import cn.strongme.entity.system.User;
-import cn.strongme.service.system.JustMeService;
 import cn.strongme.service.system.RoleService;
-import cn.strongme.service.system.UserAltService;
+import cn.strongme.service.system.UserService;
 import cn.strongme.utils.system.OfficeUtils;
 import cn.strongme.utils.system.UserUtils;
 import cn.strongme.web.common.BaseController;
@@ -33,18 +32,15 @@ import java.util.List;
 public class UserController extends BaseController {
 
     @Autowired
-    private UserAltService userAltService;
-    @Autowired
     private RoleService roleService;
     @Autowired
-    private JustMeService justMeService;
-
+    private UserService userService;
 
 
     @ModelAttribute
     public User get(@RequestParam(required = false) String id) {
         if (StringUtils.isNotBlank(id)) {
-            return justMeService.get(new User(id));
+            return userService.get(new User(id));
         } else {
             return new User();
         }
@@ -53,7 +49,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = {"", "list"})
     @TitleInfo(title = "用户数据", subTitle = "用户数据")
     public String list(User user, Model model) {
-        PageInfo<User> pageInfo = justMeService.findListPage(user);
+        PageInfo<User> pageInfo = userService.findListPage(user);
         model.addAttribute("user", user);
         model.addAttribute("page", pageInfo);
         model.addAttribute("officeData", OfficeUtils.findListInTreeStructre());
@@ -64,7 +60,7 @@ public class UserController extends BaseController {
     @TitleInfo(title = "用户数据", subTitle = "用户数据")
     public String completeInfoView(User user, Model model) {
         if (user == null || StringUtils.isBlank(user.getId())) {
-            user = justMeService.get(UserUtils.currentUser());
+            user = userService.get(UserUtils.currentUser());
         }
         model.addAttribute("user", user);
         return "system.user.userInfoView";
@@ -75,7 +71,7 @@ public class UserController extends BaseController {
     public String completeInfo(User user, Model model) {
         model.addAttribute("self", true);
         if (user == null || StringUtils.isBlank(user.getId())) {
-            user = justMeService.get(UserUtils.currentUser());
+            user = userService.get(UserUtils.currentUser());
         }
         model.addAttribute("user", user);
         return "system.user.userInfo";
@@ -87,7 +83,7 @@ public class UserController extends BaseController {
             return completeInfo(user, model);
         }
         try {
-            justMeService.saveBasicInfo(user);
+            userService.saveBasicInfo(user);
             UserUtils.updateCurrentUser(user);
             addMessage(redirectAttributes, "success", "保存用户信息成功");
         } catch (Exception e) {
@@ -112,7 +108,7 @@ public class UserController extends BaseController {
             return completeInfo(user, model);
         }
         try {
-            justMeService.save(user);
+            userService.save(user);
             if (user.getId().equals(UserUtils.currentUser().getId())) {
                 UserUtils.updateCurrentUser(user);
             }
@@ -129,7 +125,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "delete")
     public String delete(User user, RedirectAttributes redirectAttributes) {
         try {
-            justMeService.delete(user);
+            userService.delete(user);
             addMessage(redirectAttributes, "success", "删除用户成功");
         } catch (Exception e) {
             addMessage(redirectAttributes, "danger", "删除用户失败");

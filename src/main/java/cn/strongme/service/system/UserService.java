@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true, rollbackFor = ServiceException.class)
-public class JustMeService extends BaseService<User> {
+public class UserService extends BaseService<User> {
 
     @Autowired
     private UserDao userDao;

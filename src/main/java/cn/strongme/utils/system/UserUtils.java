@@ -31,18 +31,18 @@ public class UserUtils {
     private static RoleDao roleDao = SpringContextHolder.getBean(RoleDao.class);
 
     public static User get(User u) {
-        if(u!=null && StringUtils.isNotBlank(u.getId())) {
+        if (u != null && StringUtils.isNotBlank(u.getId())) {
             return get(u.getId());
-        }else {
+        } else {
             return new User();
         }
     }
 
-    public static User get(String id){
+    public static User get(String id) {
         User user = (User) CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
-        if (user ==  null){
+        if (user == null) {
             user = userDao.get(new User(id));
-            if (user == null){
+            if (user == null) {
                 return null;
             }
             user.setRoleList(roleDao.findList(new Role(user)));
@@ -54,9 +54,9 @@ public class UserUtils {
 
     public static User currentUser() {
         Principal principal = getPrincipal();
-        if (principal!=null){
+        if (principal != null) {
             User user = get(principal.getUser());
-            if (user != null){
+            if (user != null) {
                 return user;
             }
             return null;
@@ -64,7 +64,6 @@ public class UserUtils {
         // 如果没有登录，则返回实例化空的User对象。
         return null;
     }
-
 
 
     public static void updateCurrentUser(User user) {
@@ -78,7 +77,8 @@ public class UserUtils {
     public static User getByMobile(String mobile) {
         User user = (User) CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + mobile);
         if (user == null) {
-            User u = new User();u.setMobile(mobile);
+            User u = new User();
+            u.setMobile(mobile);
             user = userDao.findByMobile(u);
             if (user == null) {
                 return null;
@@ -111,16 +111,16 @@ public class UserUtils {
         CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getMobile());
     }
 
-    public static Principal getPrincipal(){
-        try{
+    public static Principal getPrincipal() {
+        try {
             Subject subject = SecurityUtils.getSubject();
             Principal principal = (Principal) subject.getPrincipal();
-            if (principal != null){
+            if (principal != null) {
                 return principal;
             }
-        }catch (UnavailableSecurityManagerException e) {
+        } catch (UnavailableSecurityManagerException e) {
 
-        }catch (InvalidSessionException e){
+        } catch (InvalidSessionException e) {
 
         }
         return null;

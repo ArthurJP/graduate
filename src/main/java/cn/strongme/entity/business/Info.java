@@ -17,7 +17,8 @@ public class Info extends BaseEntity {
     private String content;
     private List<String> typeList = Lists.newArrayList();
 
-    public Info() {}
+    public Info() {
+    }
 
     public Info(String id) {
         this.id = id;

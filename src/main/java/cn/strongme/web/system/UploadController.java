@@ -87,15 +87,15 @@ public class UploadController extends BaseController {
     public Map<String, Object> doUploadedDelete(Attachment attachment, HttpServletRequest request) {
         Map<String, Object> result = Maps.newHashMap();
         try {
-            if(attachment!=null) {
+            if (attachment != null) {
                 //attachmentService.delete(attachment, request); 这里的删除不做具体数据与文件的删除，只是返回目标文件ID,用来完成前端交互
                 result.put("attachmentId", attachment.getId());
                 result.put("status", "success");
-            }else {
+            } else {
                 result.put("status", "fail");
                 result.put("msg", "不存在此文件");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             result.put("status", "fail");
             result.put("msg", e.getMessage());
         }

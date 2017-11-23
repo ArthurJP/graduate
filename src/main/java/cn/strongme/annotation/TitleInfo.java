@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 public @interface TitleInfo {
 
     String title();
+
     String subTitle() default "";
 
 }

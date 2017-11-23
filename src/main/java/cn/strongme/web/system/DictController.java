@@ -4,7 +4,6 @@ import cn.strongme.annotation.MenuKey;
 import cn.strongme.annotation.TitleInfo;
 import cn.strongme.entity.system.Dict;
 import cn.strongme.service.system.DictService;
-import cn.strongme.utils.system.DictUtils;
 import cn.strongme.web.common.BaseController;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +66,7 @@ public class DictController extends BaseController {
         try {
             dictService.save(dict);
             addMessage(redirectAttributes, "success", "保存字典'" + dict.getLabel() + "'成功");
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             addMessage(redirectAttributes, "danger", "保存字典'" + dict.getLabel() + "'失败");
         }

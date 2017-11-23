@@ -26,7 +26,7 @@ public class MenuUtils {
         List<Menu> result = (List<Menu>) UserUtils.getCache(Menu_CACHE_LIST);
         if (result == null) {
             User currentUser = UserUtils.currentUser();
-            if(currentUser==null) {
+            if (currentUser == null) {
                 return Lists.newArrayList();
             }
             if (currentUser.isAdmin()) {

@@ -82,7 +82,7 @@ public class ValidateCodeServlet extends HttpServlet {
         createBackground(g);
 
 		/*
-		 * 生成字符
+         * 生成字符
 		 */
         String s = createCharacter(g);
         request.getSession().setAttribute(VALIDATE_CODE, s);

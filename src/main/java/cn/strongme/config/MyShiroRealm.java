@@ -6,7 +6,6 @@ import cn.strongme.common.utils.StringUtils;
 import cn.strongme.entity.system.Menu;
 import cn.strongme.entity.system.Role;
 import cn.strongme.entity.system.User;
-import cn.strongme.service.system.JustMeService;
 import cn.strongme.service.system.UserAltService;
 import cn.strongme.utils.common.PwdUtils;
 import cn.strongme.utils.system.LogUtils;
