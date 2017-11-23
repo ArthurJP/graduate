@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author 阿水
  * @date 2017/11/23 上午11:41
+ * 解决shiro导致UserService没有事务的问题
  */
 @Component
 public class SpringEventListener {
