@@ -6,7 +6,7 @@ import cn.strongme.common.utils.StringUtils;
 import cn.strongme.entity.system.Menu;
 import cn.strongme.entity.system.Role;
 import cn.strongme.entity.system.User;
-import cn.strongme.service.system.UserAltService;
+import cn.strongme.service.system.UserService;
 import cn.strongme.utils.common.PwdUtils;
 import cn.strongme.utils.system.LogUtils;
 import cn.strongme.utils.system.MenuUtils;
@@ -21,21 +21,24 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 
 /**
- * Created by 阿水 on 2017/7/14 上午11:22.
+ * @author 阿水
+ * @date 2017/7/14 上午11:22
  */
 public class MyShiroRealm extends AuthorizingRealm {
 
     private static final Logger logger = LoggerFactory.getLogger(MyShiroRealm.class);
 
-    @Autowired
-    private UserAltService userAltService;
+    private UserService userService;
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 权限认证，为当前登录的Subject授予角色和权限
@@ -46,7 +49,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         Principal principal = (Principal) super.getAvailablePrincipal(principalCollection);
         //到数据库查是否有此对象
         // 实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        User user = userAltService.findByMobile(principal.getUser().getMobile());
+        User user = userService.findByMobile(principal.getUser().getMobile());
         if (user != null) {
             //权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -82,7 +85,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         logger.info("验证当前Subject时获取到token为：" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
 
         //查出是否有此用户
-        User user = userAltService.findByMobile(token.getUsername());
+        User user = userService.findByMobile(token.getUsername());
         if (user != null) {
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
             //return new SimpleAuthenticationInfo(new Princiapl(user), user.getPassword(), getName());
@@ -99,5 +102,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         matcher.setHashIterations(PwdUtils.HASH_INTERATIONS);
         setCredentialsMatcher(matcher);
     }
+
 
 }

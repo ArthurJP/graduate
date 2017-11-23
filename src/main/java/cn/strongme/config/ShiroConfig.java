@@ -18,12 +18,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by 阿水 on 2017/7/14 上午10:15.
+ * @author 阿水
+ * @date 2017/7/14 上午10:15
  */
 @Configuration
 public class ShiroConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
+
 
     @Bean
     public EhCacheManager getEhCacheManager() {

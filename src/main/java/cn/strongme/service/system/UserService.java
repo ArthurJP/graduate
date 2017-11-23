@@ -130,5 +130,9 @@ public class UserService extends BaseService<User> {
         return this.userDao.findList(user);
     }
 
-
+    public User findByMobile(String mobile) {
+        User u = new User();
+        u.setMobile(mobile);
+        return userDao.findByMobile(u);
+    }
 }
