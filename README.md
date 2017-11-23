@@ -24,3 +24,7 @@ public class SpringEventListener {
 }
 ```
 
+# 下一步尝试
+
+> 尝试使用`jwt+spring security` 用全家桶里面的东西会放心一点
+
