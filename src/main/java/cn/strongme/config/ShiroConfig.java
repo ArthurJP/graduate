@@ -79,7 +79,7 @@ public class ShiroConfig {
     public Map<String, String> loadShiroFilterChain() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/system/**", "user");
-        filterChainDefinitionMap.put("/*", "anon");
+        filterChainDefinitionMap.put("/*", "user");
         return filterChainDefinitionMap;
     }
 

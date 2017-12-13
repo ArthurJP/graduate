@@ -45,11 +45,6 @@ public class UserService extends BaseService<User> {
             }
         }
 
-        //这里应该是要导致事务回滚的，但是却没有，其他Service都可以的！WHY
-        if (ConfigUtils.getConfig("a") == null) {
-            throw new ServiceException("不存在此配置");
-        }
-
         //插入用户角色
         if (user.getRole() == null || StringUtils.isBlank(user.getRole().getId())) {
             throw new ServiceException("缺少角色信息");
@@ -79,9 +74,6 @@ public class UserService extends BaseService<User> {
             if (StringUtils.isNotBlank(user.getId())) {
                 this.userDao.delete(user);
             }
-            if (ConfigUtils.getConfig("a") == null) {
-                throw new ServiceException("不存在此配置");
-            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException("删除用户失败");
@@ -97,9 +89,6 @@ public class UserService extends BaseService<User> {
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new ServiceException("更新用户失败");
-            }
-            if (ConfigUtils.getConfig("a") == null) {
-                throw new ServiceException("不存在此配置");
             }
         }
     }
