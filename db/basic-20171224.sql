@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.16)
 # Database: web
-# Generation Time: 2017-12-24 13:06:29 +0000
+# Generation Time: 2017-12-24 13:48:40 +0000
 # ************************************************************
 
 
@@ -20,48 +20,17 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table bus_block
+# Dump of table bus_staff
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `bus_block`;
+DROP TABLE IF EXISTS `bus_staff`;
 
-CREATE TABLE `bus_block` (
+CREATE TABLE `bus_staff` (
   `id` varchar(32) NOT NULL DEFAULT '',
-  `court_id` varchar(32) NOT NULL,
-  `name` varchar(1000) NOT NULL DEFAULT '',
-  `create_date` datetime NOT NULL,
-  `update_date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='楼栋';
-
-
-
-# Dump of table bus_court
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `bus_court`;
-
-CREATE TABLE `bus_court` (
-  `id` varchar(32) NOT NULL DEFAULT '',
-  `name` varchar(1000) NOT NULL DEFAULT '' COMMENT '小区名称',
-  `create_date` datetime NOT NULL,
-  `update_date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='小区';
-
-
-
-# Dump of table bus_owner
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `bus_owner`;
-
-CREATE TABLE `bus_owner` (
-  `id` varchar(32) NOT NULL DEFAULT '',
-  `unit_id` varchar(32) NOT NULL DEFAULT '' COMMENT '房号ID',
+  `company_id` varchar(32) NOT NULL DEFAULT '' COMMENT '公司ID',
   `open_id` varchar(100) NOT NULL COMMENT '微信OPENID',
-  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '业主姓名',
-  `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '业主手机号',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '员工姓名',
+  `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '员工手机号',
   `create_date` datetime NOT NULL,
   `update_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -69,15 +38,14 @@ CREATE TABLE `bus_owner` (
 
 
 
-# Dump of table bus_unit
+# Dump of table bus_company
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `bus_unit`;
+DROP TABLE IF EXISTS `bus_company`;
 
-CREATE TABLE `bus_unit` (
+CREATE TABLE `bus_company` (
   `id` varchar(32) NOT NULL DEFAULT '',
-  `court_id` varchar(32) NOT NULL,
-  `name` varchar(1000) NOT NULL DEFAULT '' COMMENT '房间号 ',
+  `name` varchar(1000) NOT NULL DEFAULT '' COMMENT '公司名称',
   `create_date` datetime NOT NULL,
   `update_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
