@@ -44,5 +44,12 @@ server:
 name:
   chinese: 基础WEB系统
 
+wechat:
+  mp:
+    appId: wx87f23f9b45c8221a
+    secret: a49c116b2e2f397c6d457be97257395e
+    token: W9xJc9cSMxM9wnspSAUIwpNvsQmSSluP
+    aesKey: cR3gb3Q3B5D344NBf68l6z8TmgPRKt8N8R3L3lqtqDR
+
 version: @project.version@
 

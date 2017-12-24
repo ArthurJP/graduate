@@ -78,6 +78,8 @@ public class ShiroConfig {
      */
     public Map<String, String> loadShiroFilterChain() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        filterChainDefinitionMap.put("/MP_verify**", "anon");
+        filterChainDefinitionMap.put("/wechat/**", "anon");
         filterChainDefinitionMap.put("/system/**", "user");
         filterChainDefinitionMap.put("/*", "user");
         return filterChainDefinitionMap;

@@ -24,6 +24,10 @@
         <AppenderRef ref="Console"/>
     </Logger>
 
+    <Logger name="com.github.binarywang" level="DEBUG">
+        <AppenderRef ref="Console"/>
+    </Logger>
+
     <Loggers>
         <!-- 3rdparty Loggers -->
         <AsyncLogger name="cn.strongme" level="debug" includeLocation="true" additivity="false">

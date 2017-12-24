@@ -30,4 +30,16 @@
         <put-attribute name="content" value="/WEB-INF/views/modules/{1}/{2}/{3}.jsp"/>
     </definition>
 
+    <definition name="wechat.definition" template="/WEB-INF/views/layouts/wechat.jsp">
+        <put-attribute name="js" value="/WEB-INF/views/partial/wechat/js.jsp"/>
+        <put-attribute name="stylesheets" value="/WEB-INF/views/partial/wechat/stylesheets.jsp"/>
+        <put-attribute name="content" value=""/>
+    </definition>
+
+    <definition name="*@*@*" extends="wechat.definition">
+        <put-attribute name="title" expression="${title}"/>
+        <put-attribute name="content" value="/WEB-INF/views/modules/{1}/{2}/{3}.jsp"/>
+    </definition>
+
+
 </tiles-definitions>
