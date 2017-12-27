@@ -7,6 +7,8 @@ import cn.strongme.entity.common.TreeEntity;
  */
 public class Office extends TreeEntity<Office> {
 
+    private static final long serialVersionUID = 7578110892681323024L;
+
     public Office() {
     }
 

@@ -8,8 +8,9 @@ import java.util.List;
 /**
  * Created by 阿水 on 2017/7/14 上午8:57.
  */
-public class User extends BaseEntity {
+public class User extends BaseEntity<User> {
 
+    private static final long serialVersionUID = -841378063127446588L;
     private String name;
     private String password;
     private String mobile;

@@ -1,24 +1,29 @@
 package cn.strongme.entity.common;
 
+import cn.strongme.common.utils.StringUtils;
 import cn.strongme.common.utils.UUID15;
-import cn.strongme.entity.system.User;
-import cn.strongme.utils.system.UserUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by 阿水 on 2017/9/9 下午9:58.
  */
-public abstract class BaseEntity<T> {
+public abstract class BaseEntity<T> implements Serializable {
+    private static final long serialVersionUID = 6669810101500114017L;
 
     protected String id;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date createDate;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date updateDate;
-    protected User currentUser;
+    String remarks;
 
     protected Integer page = 1;
 
@@ -39,7 +44,6 @@ public abstract class BaseEntity<T> {
         this.id = id;
     }
 
-    @JsonIgnore
     public Integer getPage() {
         return page;
     }
@@ -48,7 +52,6 @@ public abstract class BaseEntity<T> {
         this.page = page;
     }
 
-    @JsonIgnore
     public Integer getRows() {
         return rows;
     }
@@ -73,6 +76,14 @@ public abstract class BaseEntity<T> {
         this.updateDate = updateDate;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public void preInsert() {
         // 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
         this.id = UUID15.generate();
@@ -90,11 +101,12 @@ public abstract class BaseEntity<T> {
     }
 
     @JsonIgnore
-    public User getCurrentUser() {
-        if (currentUser == null) {
-            currentUser = UserUtils.currentUser();
+    public boolean isNewRecord() {
+        if (StringUtils.isNotBlank(id)) {
+            return false;
+        } else {
+            return true;
         }
-        return currentUser;
     }
 
 }

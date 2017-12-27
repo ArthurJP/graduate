@@ -7,6 +7,7 @@ import cn.strongme.entity.common.TreeEntity;
  */
 public class DictComplex extends TreeEntity<DictComplex> {
 
+    private static final long serialVersionUID = -1008799085933260376L;
     private String value;    // 数据值
     private String label;    // 标签名
     private String type;    // 类型

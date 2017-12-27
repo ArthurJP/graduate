@@ -1,9 +1,9 @@
 package cn.strongme.dao.business;
 
+import cn.strongme.dao.common.BaseMapper;
 import cn.strongme.entity.business.Info;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
@@ -12,19 +12,9 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface InfoDao extends MySqlMapper<Info> {
-
-    Info get(Info t);
-
-    List<Info> findList(Info t);
+public interface InfoDao extends BaseMapper<Info> {
 
     List<Info> findListByType(Info t);
-
-    int insert(Info t);
-
-    int update(Info t);
-
-    int delete(Info t);
 
     Info findListByMaxDate(Info info);
 }

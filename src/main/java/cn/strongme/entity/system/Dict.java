@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 字典Entity
  */
-public class Dict extends BaseEntity {
+public class Dict extends BaseEntity<Dict> {
 
     private static final long serialVersionUID = 1L;
     private String value;    // 数据值

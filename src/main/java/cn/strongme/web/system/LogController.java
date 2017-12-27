@@ -47,7 +47,7 @@ public class LogController extends BaseController {
             log.setEndDate(new Date());
         }
 
-        PageInfo<Log> pageInfo = logService.findListPage(log);
+        PageInfo<Log> pageInfo = logService.findPage(log);
         model.addAttribute("page", pageInfo);
         model.addAttribute("log", log);
         return "system.log.logList";

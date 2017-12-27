@@ -1,11 +1,9 @@
 package cn.strongme.dao.system;
 
+import cn.strongme.dao.common.BaseMapper;
 import cn.strongme.entity.system.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.MySqlMapper;
-
-import java.util.List;
 
 /**
  * @author 阿水
@@ -13,17 +11,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface UserDao extends MySqlMapper<User> {
-
-    User get(User t);
-
-    List<User> findList(User t);
-
-    int insert(User t);
-
-    int update(User t);
-
-    int delete(User t);
+public interface UserDao extends BaseMapper<User> {
 
     User findByMobile(User user);
 

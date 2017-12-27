@@ -1,9 +1,9 @@
 package cn.strongme.dao.system;
 
+import cn.strongme.dao.common.TreeMapper;
 import cn.strongme.entity.system.DictComplex;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
@@ -12,17 +12,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface DictComplexDao extends MySqlMapper<DictComplex> {
-
-    int insert(DictComplex dictComplex);
-
-    int update(DictComplex dictComplex);
-
-    int delete(DictComplex dictComplex);
-
-    DictComplex get(DictComplex dictComplex);
-
-    List<DictComplex> findList(DictComplex dictComplex);
+public interface DictComplexDao extends TreeMapper<DictComplex> {
 
     List<String> findTypeList(DictComplex dictComplex);
 

@@ -9,8 +9,9 @@ import java.util.List;
 /**
  * Created by 阿水 on 2017/9/21 下午1:52.
  */
-public class Info extends BaseEntity {
+public class Info extends BaseEntity<Info> {
 
+    private static final long serialVersionUID = 1015012633507011836L;
     private String title;
     private String intro;
     private String type;

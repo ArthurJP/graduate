@@ -1,9 +1,9 @@
 package cn.strongme.dao.system;
 
+import cn.strongme.dao.common.TreeMapper;
 import cn.strongme.entity.system.Office;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
@@ -12,17 +12,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface OfficeDao extends MySqlMapper<Office> {
-
-    Office get(Office t);
-
-    List<Office> findList(Office t);
-
-    int insert(Office t);
-
-    int update(Office t);
-
-    int delete(Office t);
+public interface OfficeDao extends TreeMapper<Office> {
 
     List<Office> findByParentIdsLike(Office office);
 

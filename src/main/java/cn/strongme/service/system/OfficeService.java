@@ -3,10 +3,9 @@ package cn.strongme.service.system;
 import cn.strongme.dao.system.OfficeDao;
 import cn.strongme.entity.system.Office;
 import cn.strongme.exception.ServiceException;
-import cn.strongme.service.common.BaseService;
+import cn.strongme.service.common.TreeService;
 import cn.strongme.utils.system.OfficeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,25 +17,14 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true, rollbackFor = ServiceException.class)
-public class OfficeService extends BaseService<Office> {
+public class OfficeService extends TreeService<OfficeDao, Office> {
 
-    @Autowired
-    private OfficeDao officeDao;
-
-    public Office get(Office office) {
-        return this.officeDao.get(office);
-    }
-
-    @Override
-    public List<Office> findList(Office office) {
-        return this.officeDao.findList(office);
-    }
 
     @Transactional(readOnly = false, rollbackFor = ServiceException.class)
     public void save(Office office) {
 
         // 获取父节点实体
-        Office p = this.officeDao.get(office.getParent());
+        Office p = this.dao.get(office.getParent());
         if (p == null) {
             p = new Office(Office.getRootId());
             p.setParentIds("");
@@ -53,29 +41,29 @@ public class OfficeService extends BaseService<Office> {
 
         if (StringUtils.isBlank(office.getId())) {
             office.preInsert();
-            this.officeDao.insert(office);
+            this.dao.save(office);
         } else {
             office.preUpdate();
-            this.officeDao.update(office);
+            this.dao.update(office);
         }
 
         // 更新子节点 parentIds
         Office m = new Office();
         m.setParentIds("%," + office.getId() + ",%");
-        List<Office> list = officeDao.findByParentIdsLike(m);
+        List<Office> list = dao.findByParentIdsLike(m);
         for (Office e : list) {
             e.setParentIds(e.getParentIds().replace(oldParentIds, office.getParentIds()));
-            officeDao.updateParentIds(e);
+            dao.updateParentIds(e);
         }
         OfficeUtils.clearCache();
     }
 
     @Transactional(readOnly = false, rollbackFor = ServiceException.class)
     public void delete(Office office) {
-        if (officeDao.inUsing(office) > 0) {
+        if (dao.inUsing(office) > 0) {
             throw new ServiceException("使用中的部门，无法删除");
         }
-        officeDao.delete(office);
+        dao.delete(office);
         OfficeUtils.clearCache();
     }
 

@@ -10,10 +10,11 @@ import java.util.List;
 /**
  * Created by 阿水 on 2017/9/19 下午4:04.
  */
-public class Role extends BaseEntity {
+public class Role extends BaseEntity<Role> {
 
     public static final String ADMIN = "ADMIN";
     public static final String NORMAL = "NORMAL";
+    private static final long serialVersionUID = -236031557056704082L;
 
     private String name;
     private String ename;    // 英文名称

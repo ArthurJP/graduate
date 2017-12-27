@@ -1,11 +1,8 @@
 package cn.strongme.service.system;
 
 import cn.strongme.dao.system.WxUserDao;
-import cn.strongme.entity.system.Dict;
 import cn.strongme.entity.system.WxUser;
-import cn.strongme.exception.ServiceException;
 import cn.strongme.service.common.BaseService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +14,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true)
-public class WxUserService extends BaseService<WxUser> {
+public class WxUserService extends BaseService<WxUserDao, WxUser> {
 
     @Autowired
     private WxUserDao wxUserDao;
@@ -62,14 +59,4 @@ public class WxUserService extends BaseService<WxUser> {
         return this.wxUserDao.findList(wxUser);
     }
 
-    @Transactional(readOnly = false, rollbackFor = ServiceException.class)
-    public void save(WxUser wxUser) {
-        if (StringUtils.isBlank(wxUser.getId())) {
-            wxUser.preInsert();
-            this.wxUserDao.insert(wxUser);
-        } else {
-            wxUser.preUpdate();
-            this.wxUserDao.update(wxUser);
-        }
-    }
 }

@@ -1,7 +1,7 @@
 package cn.strongme.service.common;
 
-import cn.strongme.dao.common.BaseMapper;
-import cn.strongme.entity.common.BaseEntity;
+import cn.strongme.dao.common.TreeMapper;
+import cn.strongme.entity.common.TreeEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -14,7 +14,7 @@ import java.util.List;
  * Service基类
  */
 @Transactional(readOnly = true)
-public abstract class BaseService<D extends BaseMapper<T>, T extends BaseEntity> {
+public abstract class TreeService<D extends TreeMapper<T>, T extends TreeEntity> {
 
     /**
      * 持久层对象
@@ -68,7 +68,7 @@ public abstract class BaseService<D extends BaseMapper<T>, T extends BaseEntity>
     public void save(T entity) {
         if (entity.isNewRecord()) {
             entity.preInsert();
-            dao.insert(entity);
+            dao.save(entity);
         } else {
             entity.preUpdate();
             dao.update(entity);
@@ -83,11 +83,6 @@ public abstract class BaseService<D extends BaseMapper<T>, T extends BaseEntity>
     @Transactional(readOnly = false)
     public void delete(String id) {
         this.deleteBatch(Lists.newArrayList(id));
-    }
-
-    @Transactional(readOnly = false)
-    public void delete(T t) {
-        this.deleteBatch(Lists.newArrayList(t.getId()));
     }
 
 

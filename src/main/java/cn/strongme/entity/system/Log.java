@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 
-public class Log extends BaseEntity {
+public class Log extends BaseEntity<Log> {
 
     private static final long serialVersionUID = 1L;
     private String type;        // 日志类型（1：接入日志；2：错误日志）

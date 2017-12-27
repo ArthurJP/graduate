@@ -13,8 +13,9 @@ import java.util.Map;
  * @author 阿水
  * @date 2017/9/24 下午10:12
  */
-public class AttachmentableEntity extends BaseEntity {
+public class AttachmentableEntity extends BaseEntity<AttachmentableEntity> {
 
+    private static final long serialVersionUID = 4263346753931051124L;
     private List<Attachment> attachmentList = Lists.newArrayList();
     private List<Attachment> attachmentListTmp = Lists.newArrayList();
 

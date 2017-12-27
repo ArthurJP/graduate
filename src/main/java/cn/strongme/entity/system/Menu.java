@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class Menu extends TreeEntity<Menu> {
 
+    private static final long serialVersionUID = -644338303125029353L;
     private String url;
     private String key;
     private String type;

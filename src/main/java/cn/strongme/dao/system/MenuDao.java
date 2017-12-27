@@ -1,9 +1,9 @@
 package cn.strongme.dao.system;
 
+import cn.strongme.dao.common.TreeMapper;
 import cn.strongme.entity.system.Menu;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
@@ -12,17 +12,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface MenuDao extends MySqlMapper<Menu> {
-
-    Menu get(Menu t);
-
-    List<Menu> findList(Menu t);
-
-    int insert(Menu t);
-
-    int update(Menu t);
-
-    int delete(Menu t);
+public interface MenuDao extends TreeMapper<Menu> {
 
     List<Menu> findListByUserId(Menu menu);
 

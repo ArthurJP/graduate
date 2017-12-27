@@ -3,11 +3,10 @@ package cn.strongme.service.system;
 import cn.strongme.dao.system.MenuDao;
 import cn.strongme.entity.system.Menu;
 import cn.strongme.exception.ServiceException;
-import cn.strongme.service.common.BaseService;
+import cn.strongme.service.common.TreeService;
 import cn.strongme.utils.system.MenuUtils;
 import cn.strongme.utils.system.UserUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,29 +17,17 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true, rollbackFor = ServiceException.class)
-public class MenuService extends BaseService<Menu> {
-
-    @Autowired
-    private MenuDao menuDao;
-
-    public Menu get(Menu menu) {
-        return this.menuDao.get(menu);
-    }
-
-    @Override
-    public List<Menu> findList(Menu menu) {
-        return this.menuDao.findList(menu);
-    }
+public class MenuService extends TreeService<MenuDao, Menu> {
 
     public List<Menu> findListByUserId(Menu menu) {
-        return this.menuDao.findListByUserId(menu);
+        return this.dao.findListByUserId(menu);
     }
 
     @Transactional(readOnly = false, rollbackFor = ServiceException.class)
     public void save(Menu menu) {
 
         // 获取父节点实体
-        Menu p = this.menuDao.get(menu.getParent());
+        Menu p = this.dao.get(menu.getParent());
         if (p == null) {
             p = new Menu(Menu.getRootId());
             p.setParentIds("");
@@ -57,19 +44,19 @@ public class MenuService extends BaseService<Menu> {
 
         if (StringUtils.isBlank(menu.getId())) {
             menu.preInsert();
-            this.menuDao.insert(menu);
+            this.dao.save(menu);
         } else {
             menu.preUpdate();
-            this.menuDao.update(menu);
+            this.dao.update(menu);
         }
 
         // 更新子节点 parentIds
         Menu m = new Menu();
         m.setParentIds("%," + menu.getId() + ",%");
-        List<Menu> list = menuDao.findByParentIdsLike(m);
+        List<Menu> list = dao.findByParentIdsLike(m);
         for (Menu e : list) {
             e.setParentIds(e.getParentIds().replace(oldParentIds, menu.getParentIds()));
-            menuDao.updateParentIds(e);
+            dao.updateParentIds(e);
         }
         UserUtils.clearCache();
         MenuUtils.clearCache();
@@ -77,17 +64,17 @@ public class MenuService extends BaseService<Menu> {
 
     @Transactional(readOnly = false)
     public void updateMenuSort(Menu menu) {
-        menuDao.updateSort(menu);
+        dao.updateSort(menu);
         UserUtils.clearCache();
         MenuUtils.clearCache();
     }
 
     @Transactional(readOnly = false, rollbackFor = ServiceException.class)
     public void delete(Menu menu) {
-        if (menuDao.inUsing(menu) > 0) {
+        if (dao.inUsing(menu) > 0) {
             throw new ServiceException("使用中的菜单，无法删除");
         }
-        menuDao.delete(menu);
+        dao.delete(menu);
         UserUtils.clearCache();
         MenuUtils.clearCache();
     }

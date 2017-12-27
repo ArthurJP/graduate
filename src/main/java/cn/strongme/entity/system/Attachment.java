@@ -12,8 +12,9 @@ import java.util.Map;
  * Created by 阿水 on 2017/8/15 上午9:12.
  * 附件
  */
-public class Attachment extends BaseEntity {
+public class Attachment extends BaseEntity<Attachment> {
 
+    private static final long serialVersionUID = -687711127354852766L;
     private String origin;
     private String subfix;
     private String relativePath;

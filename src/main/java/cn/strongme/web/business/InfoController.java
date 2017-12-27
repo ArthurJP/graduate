@@ -51,7 +51,7 @@ public class InfoController extends BaseController {
             types.add(d.getValue());
         }
         info.setTypeList(types);
-        List<Info> infoList = infoService.findListPage(info);
+        List<Info> infoList = infoService.findList(info);
         PageInfo<Info> pageInfo = new PageInfo<>(infoList);
         model.addAttribute("info", info);
         model.addAttribute("page", pageInfo);

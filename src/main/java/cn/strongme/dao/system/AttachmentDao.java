@@ -1,10 +1,10 @@
 package cn.strongme.dao.system;
 
+import cn.strongme.dao.common.BaseMapper;
 import cn.strongme.entity.common.AttachmentableEntity;
 import cn.strongme.entity.system.Attachment;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
@@ -13,15 +13,10 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface AttachmentDao extends MySqlMapper<Attachment> {
+public interface AttachmentDao extends BaseMapper<Attachment> {
 
-    List<Attachment> findList(Attachment attachment);
 
     int batchInsert(List<Attachment> list);
-
-    int delete(Attachment attachment);
-
-    Attachment get(Attachment attachment);
 
     int insertBusinessAttachment(AttachmentableEntity entity);
 
