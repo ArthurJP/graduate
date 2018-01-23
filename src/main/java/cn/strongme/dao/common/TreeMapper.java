@@ -43,21 +43,21 @@ public interface TreeMapper<T extends TreeEntity> extends MySqlMapper<T> {
      *
      * @param t
      */
-    void save(T t);
+    void insert(T t);
 
     /**
      * 根据自定义参数保存信息
      *
      * @param map
      */
-    void save(Map<String, Object> map);
+    void insert(Map<String, Object> map);
 
     /**
      * 批量保存实体信息
      *
      * @param list
      */
-    void saveBatch(List<T> list);
+    void insertBatch(List<T> list);
 
     /**
      * 根据Id更新实体信息
