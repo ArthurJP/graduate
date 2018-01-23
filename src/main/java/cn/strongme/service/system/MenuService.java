@@ -44,7 +44,7 @@ public class MenuService extends TreeService<MenuDao, Menu> {
 
         if (StringUtils.isBlank(menu.getId())) {
             menu.preInsert();
-            this.dao.save(menu);
+            this.dao.insert(menu);
         } else {
             menu.preUpdate();
             this.dao.update(menu);

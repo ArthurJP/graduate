@@ -68,7 +68,7 @@ public abstract class TreeService<D extends TreeMapper<T>, T extends TreeEntity>
     public void save(T entity) {
         if (entity.isNewRecord()) {
             entity.preInsert();
-            dao.save(entity);
+            dao.insert(entity);
         } else {
             entity.preUpdate();
             dao.update(entity);

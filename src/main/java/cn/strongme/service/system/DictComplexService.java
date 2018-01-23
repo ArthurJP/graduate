@@ -62,7 +62,7 @@ public class DictComplexService extends TreeService<DictComplexDao, DictComplex>
 
         if (StringUtils.isBlank(dictComplex.getId())) {
             dictComplex.preInsert();
-            this.dao.save(dictComplex);
+            this.dao.insert(dictComplex);
         } else {
             dictComplex.preUpdate();
             this.dao.update(dictComplex);

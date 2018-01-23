@@ -41,7 +41,7 @@ public class OfficeService extends TreeService<OfficeDao, Office> {
 
         if (StringUtils.isBlank(office.getId())) {
             office.preInsert();
-            this.dao.save(office);
+            this.dao.insert(office);
         } else {
             office.preUpdate();
             this.dao.update(office);
