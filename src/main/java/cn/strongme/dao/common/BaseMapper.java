@@ -43,7 +43,7 @@ public interface BaseMapper<T extends BaseEntity> extends MySqlMapper<T> {
      *
      * @param t
      */
-    void insert(T t);
+    int insert(T t);
 
     /**
      * 根据自定义参数保存信息

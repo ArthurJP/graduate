@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.strongme.dao.advertisement.AdsDao">
+    <sql id="adsColumns">
+        a.id,
+        a.type,
+        a.alt,
+        a.url,
+        a.img_src AS imgSrc,
+        a.remark,
+        a.sort,
+        a.create_date AS 'createDate',
+        a.update_date AS 'updateDate',
+        a.operator_id AS 'operatorID',
+        a.status
+    </sql>
+
+    <select id="findList" resultType="Ads">
+        SELECT
+        <include refid="adsColumns"/>
+        FROM ads a
+        WHERE 1=1
+        <if test="type!=null and type!=''">
+            AND a.type = #{type}
+        </if>
+        <if test="url!=null and url!=''">
+            AND a.url LIKE CONCAT('%', #{url}, '%')
+        </if>
+        <if test="imgSrc!=null and imgSrc!=''">
+            AND a.img_src LIKE CONCAT('%', #{imgSrc}, '%')
+        </if>
+        <if test="remark!=null and remark!=''">
+            AND a.remark LIKE CONCAT('%', #{remark}, '%')
+        </if>
+        <if test="operatorID!=null and operatorID!=''">
+            AND a.operator_id=#{operatorID}
+        </if>
+        <if test="status!=null and status!=''">
+            AND a.status=${status}
+        </if>
+        ORDER BY a.sort DESC
+    </select>
+
+    <select id="findListByType" resultType="Ads">
+        SELECT
+        <include refid="adsColumns"/>
+        FROM ads a where a.type=#{type}
+        ORDER BY a.sort ASC ,a.create_date DESC
+    </select>
+
+    <select id="get" resultType="Ads">
+        SELECT
+        <include refid="adsColumns"/>
+        FROM ads a
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ads (
+            id, type, alt, url, img_src, remark, sort, create_date, update_date, operator_id, status
+        ) VALUES (
+            #{id},
+            #{type},
+            #{alt},
+            #{url},
+            #{imgSrc},
+            #{remark},
+            ${sort},
+            #{createDate},
+            #{updateDate},
+            #{operatorID},
+            ${status}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE ads
+        SET
+            type        = #{type},
+            alt         = #{alt},
+            url         = #{url},
+            img_src     = #{imgSrc},
+            remark      = #{remark},
+            sort        = ${sort},
+            update_date = #{updateDate},
+            operator_id = #{operatorID},
+            status      = ${status}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM ads WHERE id = #{id}
+    </delete>
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM ads WHERE id = #{id}
+    </delete>
+
+    <select id="findListByMaxDate" resultType="Ads">
+        SELECT
+            a.id,
+            a.url,
+            a.remark,
+            a.type,
+            a.content,
+            a.create_date AS 'createDate',
+            a.update_date AS 'updateDate'
+        FROM ads a
+        WHERE type = #{type}
+        ORDER BY a.create_date DESC
+        LIMIT 1;
+    </select>
+</mapper>
