@@ -1,7 +1,7 @@
 package cn.strongme.config;
 
-import cn.strongme.wechat.properties.WechatMpProperties;
 import cn.strongme.wechat.handler.*;
+import cn.strongme.wechat.properties.WechatMpProperties;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;

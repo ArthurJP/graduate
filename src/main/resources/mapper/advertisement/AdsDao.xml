@@ -38,7 +38,7 @@
         <if test="status!=null and status!=''">
             AND a.status=${status}
         </if>
-        ORDER BY a.sort DESC
+        ORDER BY a.sort ASC
     </select>
 
     <select id="findListByType" resultType="Ads">
