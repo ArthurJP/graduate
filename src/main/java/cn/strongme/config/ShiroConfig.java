@@ -81,6 +81,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/MP_verify**", "anon");
         filterChainDefinitionMap.put("/wechat/**", "anon");
         filterChainDefinitionMap.put("/system/**", "user");
+        filterChainDefinitionMap.put("/advertisement/**", "user");
         filterChainDefinitionMap.put("/*", "user");
         return filterChainDefinitionMap;
     }
