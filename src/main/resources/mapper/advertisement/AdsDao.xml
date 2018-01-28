@@ -89,10 +89,18 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM ads WHERE id = #{id}
+        DELETE FROM ads
+        WHERE id = #{id}
     </delete>
+
     <delete id="deleteByPrimaryKey">
-        DELETE FROM ads WHERE id = #{id}
+        DELETE FROM ads
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByKeys">
+        DELETE FROM ads
+        WHERE id IN ( ${_parameter} )
     </delete>
 
     <select id="findListByMaxDate" resultType="Ads">

@@ -13,8 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -84,5 +88,28 @@ public class AdsController extends BaseController {
             addMessage(redirectAttributes, "danger", "删除广告失败");
         }
         return "redirect:/advertisement/ads";
+    }
+
+    @RequestMapping(value="deleteAll")
+    public String deleteAll(@RequestParam(value="ids",required = false,defaultValue = "") String ids, RedirectAttributes redirectAttributes){
+        try {
+            ids=ids.replaceAll( ",","','" );
+            ids="'"+ids+"'";
+            System.out.println( "ids = " + ids );
+            adsService.deleteByKeys(ids);
+            addMessage(redirectAttributes, "success", "批量删除广告成功");
+        } catch (Exception e) {
+            System.out.println( "e = " + e );
+            addMessage(redirectAttributes, "danger", "批量删除广告失败");
+        }
+        return "redirect:/advertisement/ads";
+    }
+
+    @RequestMapping(value="resort")
+    @ResponseBody
+    public void resort(HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter out = response.getWriter();
+        out.print("122");//返回登录信息
     }
 }

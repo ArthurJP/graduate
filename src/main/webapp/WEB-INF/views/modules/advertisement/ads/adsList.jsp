@@ -23,7 +23,7 @@
                 <button type="submit" class="btn btn-default">查询</button>
             </div>
             <div class="col-lg-1">
-                <button id="deleteAll" class="btn btn-danger">批量删除</button>
+                <a href="${ctx}/advertisement/ads/deleteAll?ids=" id="deleteAll" class="btn btn-danger">批量删除</a>
             </div>
 
             <div class="pull-right box-tools">
@@ -45,11 +45,13 @@
             </tr>
             <c:forEach items="${page.list}" var="ads" varStatus="i">
                 <tr>
-                    <td><input type="checkbox" name="ids[]" id="${ids.id}">${i.index+1}</td>
+                    <td><input type="checkbox" name="ids[]" value="${ads.id}">${i.index+1}</td>
                     <td>${ads.alt}</td>
                     <td><a href="${ads.url}"><img src="${ads.imgSrc}" alt="${ads.alt}" style="height:80px;"></a></td>
                     <td>${fns:getDictLabel(ads.type,'adsPosition', '')}</td>
-                    <td>${ads.sort}</td>
+                    <td class="form-group">
+                        <input type="text" id="sortId" class="form-control" value="${ads.sort}" style="width: 40px;">
+                    </td>
                     <td>${fns:formateDate(ads.createDate, 'yyyy-MM-dd hh:mm:ss')}</td>
                     <td>${fns:formateDate(ads.updateDate, 'yyyy-MM-dd hh:mm:ss')}</td>
                     <td>
@@ -91,18 +93,59 @@
         });
     });
 
-    $('#deleteAll').click(function(){
-        if(confirm('确定要删除所选吗?')){
-            var checks = $("input[name='ids[]']:checked");
-            if(checks.length == 0){ alert('未选中任何项！');return false;}
-            //将获取的值存入数组
-            var checkData = new Array();
-            checks.each(function(){
-                checkData.push($(this).val());
-            });
-            $.get("<{spUrl c=order a=delete}>",{Check:checkData.toString()},function(result){ if(result = true){ window.location.reload();}});
-        }
+    $("#deleteAll").hover(function(){
+        var checks = $("input[name='ids[]']:checked");
+        //将获取的值存入数组
+        var checkedList = new Array();
+        checks.each(function () {
+            checkedList.push($(this).val());
+        });
+        $("#deleteAll").attr('href',"${ctx}/advertisement/ads/deleteAll?ids="+checkedList.toLocaleString());
+    })
+
+    $("#deleteAll").click(function () {
+
+        confirmWithJbox('警告', '确认批量删除记录？', '删除', '取消', function () {
+            document.location = $("#deleteAll").attr("href");
+        }, function () {});
+        return false;
     });
+
+    <%--$('#deleteAll').click(function () {--%>
+    <%--if (confirm('确定要删除所选吗?')) {--%>
+    //            var checks = $("input[name='ids[]']:checked");
+    //            if (checks.length == 0) {
+    //                alert('未选中任何项！');
+    //                return false;
+    //            }
+    //            //将获取的值存入数组
+    //            var checkedList = new Array();
+    //            checks.each(function () {
+    //                checkedList.push($(this).val());
+    //            });
+    <%----%>
+    <%--//            post请求无法发送，留着以后解决--%>
+    <%--$.post("${ctx}/advertisement/ads/deleteAll", {"ids": checkedList.toString()}, function (data, status) {--%>
+    <%--$("[name ='subChk']:checkbox").attr("checked", false);--%>
+    <%--alert(11111);--%>
+    <%--},"json");--%>
+    <%--}--%>
+    <%--});--%>
+
+    $("#sortId").blur(function(){
+        var url = '${ctx}/advertisement/ads/resort';
+        $.ajax({
+            url:url,
+            type:'get',
+            dataType:'json',
+            success:function(data) {
+                alert(1+data);
+            },
+            error:function(data){
+                alert("2"+data);
+            }
+        })
+    })
 </script>
 
 

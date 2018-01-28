@@ -100,4 +100,6 @@ public interface BaseMapper<T extends BaseEntity> extends MySqlMapper<T> {
      */
     int deleteBatch(List<String> list);
 
+    int deleteByKeys(String keys);
+
 }

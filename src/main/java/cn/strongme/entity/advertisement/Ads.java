@@ -2,6 +2,7 @@ package cn.strongme.entity.advertisement;
 
 import cn.strongme.entity.common.BaseEntity;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Ads extends BaseEntity<Ads> {
@@ -105,6 +106,7 @@ public class Ads extends BaseEntity<Ads> {
      *
      * @mbg.generated
      */
+    @NotNull
     public String getType() {
         return type;
     }
@@ -130,6 +132,7 @@ public class Ads extends BaseEntity<Ads> {
      *
      * @mbg.generated
      */
+    @NotNull
     public String getAlt() {
         return alt;
     }
@@ -154,6 +157,7 @@ public class Ads extends BaseEntity<Ads> {
      *
      * @mbg.generated
      */
+    @NotNull
     public String getUrl() {
         return url;
     }
@@ -178,6 +182,7 @@ public class Ads extends BaseEntity<Ads> {
      *
      * @mbg.generated
      */
+    @NotNull
     public String getImgSrc() {
         return imgSrc;
     }
@@ -226,6 +231,7 @@ public class Ads extends BaseEntity<Ads> {
      *
      * @mbg.generated
      */
+    @NotNull
     public int getSort() {
         return sort;
     }

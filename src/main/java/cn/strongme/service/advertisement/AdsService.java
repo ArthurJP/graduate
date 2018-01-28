@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 public class AdsService extends BaseService<AdsDao,Ads> {
     @Resource
     private AdsDao dao;
+
+    @Transactional(readOnly = false)
     public int deleteByPrimaryKey(String id){
         return dao.deleteByPrimaryKey( id );
     }
