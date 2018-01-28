@@ -10,10 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
@@ -105,11 +102,11 @@ public class AdsController extends BaseController {
         return "redirect:/advertisement/ads";
     }
 
-    @RequestMapping(value="resort")
-    @ResponseBody
-    public void resort(HttpServletResponse response) throws IOException {
-        response.setContentType("text/html;charset=utf-8");
-        PrintWriter out = response.getWriter();
-        out.print("122");//返回登录信息
+    @RequestMapping("resort")
+    @ResponseBody//响应Ajax请求，会将响应对象转换成json
+    public String resort(@RequestBody String id,@RequestBody String sort) throws IOException {
+        System.out.println( "id = " + id );
+        System.out.println( "sort = " + sort );
+        return "success";
     }
 }

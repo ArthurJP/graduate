@@ -132,17 +132,18 @@
     <%--}--%>
     <%--});--%>
 
-    $("#sortId").blur(function(){
+    $("input[id='sortId']").blur(function(){
         var url = '${ctx}/advertisement/ads/resort';
         $.ajax({
             url:url,
-            type:'get',
+            type:'post',
             dataType:'json',
-            success:function(data) {
-                alert(1+data);
+            data:{
+                "id":"1",
+                "sort":"2"
             },
-            error:function(data){
-                alert("2"+data);
+            error:function(){
+                alert("您当前的网络开了小差~");
             }
         })
     })
