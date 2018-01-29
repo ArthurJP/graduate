@@ -51,6 +51,7 @@
                     <td>${fns:getDictLabel(ads.type,'adsPosition', '')}</td>
                     <td class="form-group">
                         <input type="text" id="sortId" class="form-control" value="${ads.sort}" style="width: 40px;">
+                        <input type="hidden" name="id" value="${ads.id}">
                     </td>
                     <td>${fns:formateDate(ads.createDate, 'yyyy-MM-dd hh:mm:ss')}</td>
                     <td>${fns:formateDate(ads.updateDate, 'yyyy-MM-dd hh:mm:ss')}</td>
@@ -136,14 +137,14 @@
         var url = '${ctx}/advertisement/ads/resort';
         $.ajax({
             url:url,
-            type:'post',
-            dataType:'json',
-            data:{
-                "id":"1",
-                "sort":"2"
-            },
+            method:'POST',
+            contentType: "application/json;charset=UTF-8",
+            data:JSON.stringify({
+                'id':$(this).next().val(),
+                'sort':$(this).val()
+            }),
             error:function(){
-                alert("您当前的网络开了小差~");
+                alert("您当前的网络开了小差~请禁用广告拦截后重试~~");
             }
         })
     })

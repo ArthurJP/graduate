@@ -23,4 +23,8 @@ public class AdsService extends BaseService<AdsDao,Ads> {
         return dao.deleteByPrimaryKey( id );
     }
 
+    public int updateSort(Ads ads){
+        return dao.updateSort( ads );
+    }
+
 }

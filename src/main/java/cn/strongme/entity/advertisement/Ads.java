@@ -320,4 +320,23 @@ public class Ads extends BaseEntity<Ads> {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Ads{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                ", alt='" + alt + '\'' +
+                ", createDate=" + createDate +
+                ", url='" + url + '\'' +
+                ", updateDate=" + updateDate +
+                ", page=" + page +
+                ", rows=" + rows +
+                ", imgSrc='" + imgSrc + '\'' +
+                ", remark='" + remark + '\'' +
+                ", sort=" + sort +
+                ", operatorID='" + operatorID + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

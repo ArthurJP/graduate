@@ -88,6 +88,13 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updateSort">
+        UPDATE ads
+        SET
+            sort = ${sort}
+        WHERE id = #{id}
+    </update>
+
     <delete id="delete">
         DELETE FROM ads
         WHERE id = #{id}
@@ -100,7 +107,7 @@
 
     <delete id="deleteByKeys">
         DELETE FROM ads
-        WHERE id IN ( ${_parameter} )
+        WHERE id IN (${_parameter})
     </delete>
 
     <select id="findListByMaxDate" resultType="Ads">
@@ -109,7 +116,6 @@
             a.url,
             a.remark,
             a.type,
-            a.content,
             a.create_date AS 'createDate',
             a.update_date AS 'updateDate'
         FROM ads a

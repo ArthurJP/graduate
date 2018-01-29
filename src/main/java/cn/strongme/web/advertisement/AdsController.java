@@ -2,11 +2,13 @@ package cn.strongme.web.advertisement;
 
 import cn.strongme.annotation.MenuKey;
 import cn.strongme.annotation.TitleInfo;
+import cn.strongme.common.utils.JsonMapper;
 import cn.strongme.common.utils.StringUtils;
 import cn.strongme.entity.advertisement.Ads;
 import cn.strongme.service.advertisement.AdsService;
 import cn.strongme.web.common.BaseController;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,9 +106,11 @@ public class AdsController extends BaseController {
 
     @RequestMapping("resort")
     @ResponseBody//响应Ajax请求，会将响应对象转换成json
-    public String resort(@RequestBody String id,@RequestBody String sort) throws IOException {
-        System.out.println( "id = " + id );
-        System.out.println( "sort = " + sort );
+    public String resort(@RequestBody String data) throws IOException {
+        System.out.println( "data = " + data );
+        Ads ads = (Ads) JsonMapper.fromJsonString( data, Ads.class );
+        System.out.println( "ads = " + ads );
+        adsService.updateSort(ads);
         return "success";
     }
 }
